@@ -1,45 +1,28 @@
 package controllers
 
+import models._
+import akka.actor._
+import akka.util.duration._
 import play.api._
 import play.api.mvc._
-
 import play.api.libs.json._
 import play.api.libs.iteratee._
 
-import models._
-
-import akka.actor._
-import akka.util.duration._
-
 object Application extends Controller {
   
-  /**
-   * Just display the home page.
-   */
+  // Display the home page
   def index = Action { implicit request =>
     Ok(views.html.index())
   }
   
-  /**
-   * Display the chat room page.
-   */
-  def chatRoom(username: Option[String]) = Action { implicit request =>
-    username.filterNot(_.isEmpty).map { username =>
+  // Display the chat room page
+  def chatRoom(username: String) = Action { implicit request =>
       Ok(views.html.chatRoom(username))
-    }.getOrElse {
-      Redirect(routes.Application.index).flashing(
-        "error" -> "Please choose a valid username."
-      )
-    }
   }
   
-  /**
-   * Handles the chat websocket.
-   */
+  // Welcome a new chatter
   def chat(username: String) = WebSocket.async[JsValue] { request  =>
-
     ChatRoom.join(username)
-    
   }
   
 }
