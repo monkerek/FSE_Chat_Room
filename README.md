@@ -1,6 +1,7 @@
 ### Usage
 
-As a pre-requisite, you need to install `play framework`. Please find the installation guide [here](https://www.playframework.com/download). (This project is built on play-2.0.8) 
+As a pre-requisite, you need to install `play framework`. Please find the installation guide [here](https://www.playframework.com/download). 
+(This project is built on play-2.0.8) 
 
 Git clone the repository
  
