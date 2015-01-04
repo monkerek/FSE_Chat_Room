@@ -1,5 +1,6 @@
 package models
 
+import java.util.Calendar
 import play.api._
 import play.api.libs.json._
 import play.api.libs.iteratee._
@@ -74,7 +75,7 @@ class ChatRoom extends Actor {
     }
     
     case Talk(username, text) => {
-      notifyAll("talk", username, text)
+      notifyAll("talk", username, "says: " + text)
     }
     
     case Quit(username) => {
@@ -85,11 +86,12 @@ class ChatRoom extends Actor {
   }
   
   def notifyAll(kind: String, user: String, text: String) {
+    val today = Calendar.getInstance().getTime()
     val msg = JsObject(
       Seq(
         "kind" -> JsString(kind),
         "user" -> JsString(user),
-        "message" -> JsString(text),
+        "message" -> JsString("at " + today + " " + text),
         "members" -> JsArray(
           members.keySet.toList.map(JsString)
         )
@@ -106,6 +108,5 @@ case class Join(username: String)
 case class Quit(username: String)
 case class Talk(username: String, text: String)
 case class NotifyJoin(username: String)
-
 case class Connected(enumerator:Enumerator[JsValue])
 case class CannotConnect(msg: String)
