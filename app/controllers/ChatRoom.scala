@@ -1,4 +1,4 @@
-package models
+package controllers
 
 import java.util.Calendar
 import play.api._
